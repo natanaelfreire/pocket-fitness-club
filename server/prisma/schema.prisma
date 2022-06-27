@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Cliente {
+  id               String   @id @default(uuid())
+  nome             String
+  cpf              String   @unique
+  dataNascimento   DateTime
+  endereco         String
+  telefone         String
+  dataMensalidade  DateTime
+  valorMensalidade Decimal
+  ativo            Boolean
+  dataCriacao      DateTime @default(now())
+
+  usuario Usuario?
+
+  @@map("cliente")
+}
+
+model Colaborador {
+  id            String   @id @default(uuid())
+  nome          String
+  cpf           String   @unique
+  endereco      String
+  telefone      String
+  especialidade String?
+  formacao      String?
+  cargo         String
+  dataCriacao   DateTime @default(now())
+
+  usuario Usuario?
+
+  @@map("colaborador")
+}
+
+model Usuario {
+  id    String @id @default(uuid())
+  nome  String
+  email String
+  senha String
+
+  perfilAcesso   PerfilAcesso @relation(fields: [perfilAcessoId], references: [id])
+  perfilAcessoId Int
+  cliente        Cliente?     @relation(fields: [clienteId], references: [id])
+  clienteId      String?      @unique
+  colaborador    Colaborador? @relation(fields: [colaboradorId], references: [id])
+  colaboradorId  String?      @unique
+
+  @@map("usuario")
+}
+
+model PerfilAcesso {
+  id        Int    @id @default(autoincrement())
+  descricao String
+
+  usuarios              Usuario[]
+  acessoFuncionalidades AcessoFuncionalidade[]
+
+  @@map("perfil_acesso")
+}
+
+model AcessoFuncionalidade {
+  id        Int    @id @default(autoincrement())
+  descricao String
+  icone     String
+  caminho   String
+
+  perfilAcesso   PerfilAcesso @relation(fields: [perfilAcessoId], references: [id])
+  perfilAcessoId Int
+
+  @@map("acesso_funcionalidade")
+}
