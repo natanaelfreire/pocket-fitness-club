@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from "../prisma";
+import { dateInISOString } from '../utils/dateInISOString';
 
 interface ColaboradorDadosCriacao {
   nome: string;
@@ -21,7 +22,7 @@ export class ColaboradorController {
         telefone,
         especialidade,
         formacao,
-        cargo
+        cargo,
       } : ColaboradorDadosCriacao = req.body;
 
       if (!nome) {
@@ -39,6 +40,16 @@ export class ColaboradorController {
       const cpfSemFormatacao = cpf.replace(/\./g, "").replace("-", "").trim()
       const telefoneSemFormatacao = telefone.replace("(", "").replace(")", "").replace("-", "").replace(/\s/g, "").trim()
 
+      const validaCPFUnico = await prisma.colaborador.findFirst({
+        where: {
+          cpf: cpfSemFormatacao
+        }
+      })
+
+      if (validaCPFUnico != null) {
+        throw new Error("CPF já cadastrado.");
+      }
+
       await prisma.colaborador.create({
         data: {
           nome: nome.toUpperCase(),
@@ -48,6 +59,7 @@ export class ColaboradorController {
           especialidade,
           formacao,
           cargo,
+          dataCriacao: dateInISOString()     
         }
       })
 

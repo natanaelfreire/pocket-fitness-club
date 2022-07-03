@@ -19,7 +19,8 @@ model Cliente {
   ativo            Boolean
   dataCriacao      DateTime @default(now())
 
-  usuario Usuario?
+  usuario      Usuario?
+  agendamentos Agendamento[]
 
   @@map("cliente")
 }
@@ -36,6 +37,7 @@ model Colaborador {
   dataCriacao   DateTime @default(now())
 
   usuario Usuario?
+  turmas  Turma[]
 
   @@map("colaborador")
 }
@@ -76,4 +78,39 @@ model AcessoFuncionalidade {
   perfilAcessoId Int
 
   @@map("acesso_funcionalidade")
+}
+
+model Modalidade {
+  id          Int      @id @default(autoincrement())
+  descricao   String
+  dataCriacao DateTime @default(now())
+
+  turmas Turma[]
+
+  @@map("modalidade")
+}
+
+model Turma {
+  id         Int      @id @default(autoincrement())
+  capacidade Int
+  horaInicio DateTime
+  horaFim    DateTime
+
+  modalidade    Modalidade    @relation(fields: [modalidadeId], references: [id])
+  modalidadeId  Int
+  colaborador   Colaborador   @relation(fields: [colaboradorId], references: [id])
+  colaboradorId String
+  agendamentos  Agendamento[]
+}
+
+model Agendamento {
+  id              Int      @id @default(autoincrement())
+  dataAgendamento DateTime
+  cancelado       Boolean
+  usuarioCadastro String
+
+  cliente   Cliente @relation(fields: [clienteId], references: [id])
+  clienteId String
+  turma     Turma   @relation(fields: [turmaId], references: [id])
+  turmaId   Int
 }
