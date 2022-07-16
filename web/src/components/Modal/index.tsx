@@ -4,7 +4,7 @@ import React, { Fragment, useEffect, useState } from "react";
 interface ModalProps {
   title: string;
   children: React.ReactNode;
-  id?: number | null;
+  id?: string | number | null;
   open: boolean;
   setIsOpen: (value: boolean) => void;
   onConfirm: () => Promise<void>;

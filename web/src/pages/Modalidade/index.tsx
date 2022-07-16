@@ -164,6 +164,7 @@ export function Modalidade() {
             Adicionar
           </button>
         </div>
+
         <Table
           items={modalidades ?? []}
           loading={isFetchingModalidades}
@@ -186,7 +187,7 @@ export function Modalidade() {
                 position: 'center',
                 renderItem: (item) => {
                   return (
-                    <div className="flex gap-3 justify-center">
+                    <div className="flex gap-2 justify-center">
                       <button
                         onClick={() => handleOpenModal(item.id)}
                         title="Editar"

@@ -74,7 +74,7 @@ export class ColaboradorController {
     try {
       const colaboradores = await prisma.colaborador.findMany({
         orderBy: {
-          nome: 'asc'
+          dataCriacao: 'desc'
         },
       });
 

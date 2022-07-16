@@ -6,6 +6,7 @@ import { Home } from '../pages/Home';
 import { Cliente } from '../pages/Cliente';
 import { InformacoesClube } from '../pages/InformacoesClube';
 import { Modalidade } from '../pages/Modalidade';
+import { Professor } from '../pages/Professor';
 
 export default function OtherRoutes() {
   return (
@@ -15,7 +16,7 @@ export default function OtherRoutes() {
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Home />} />
             <Route path="/infos" element={<InformacoesClube />} />
-            <Route path="/professor" element={<Home />} />
+            <Route path="/professor" element={<Professor />} />
             <Route path="/modalidade" element={<Modalidade />} />            
             <Route path="/cliente" element={<Cliente />} />
             <Route path="/calendario-turma" element={<Home />} />
