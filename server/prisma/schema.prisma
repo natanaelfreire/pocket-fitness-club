@@ -43,41 +43,18 @@ model Colaborador {
 }
 
 model Usuario {
-  id    String @id @default(uuid())
-  nome  String
-  email String
-  senha String
+  id           String @id @default(uuid())
+  nome         String
+  email        String
+  senha        String
+  perfilAcesso String
 
-  perfilAcesso   PerfilAcesso @relation(fields: [perfilAcessoId], references: [id])
-  perfilAcessoId Int
-  cliente        Cliente?     @relation(fields: [clienteId], references: [id])
-  clienteId      String?      @unique
-  colaborador    Colaborador? @relation(fields: [colaboradorId], references: [id])
-  colaboradorId  String?      @unique
+  cliente       Cliente?     @relation(fields: [clienteId], references: [id])
+  clienteId     String?      @unique
+  colaborador   Colaborador? @relation(fields: [colaboradorId], references: [id])
+  colaboradorId String?      @unique
 
   @@map("usuario")
-}
-
-model PerfilAcesso {
-  id        Int    @id @default(autoincrement())
-  descricao String
-
-  usuarios              Usuario[]
-  acessoFuncionalidades AcessoFuncionalidade[]
-
-  @@map("perfil_acesso")
-}
-
-model AcessoFuncionalidade {
-  id        Int    @id @default(autoincrement())
-  descricao String
-  icone     String
-  caminho   String
-
-  perfilAcesso   PerfilAcesso @relation(fields: [perfilAcessoId], references: [id])
-  perfilAcessoId Int
-
-  @@map("acesso_funcionalidade")
 }
 
 model Modalidade {
@@ -101,6 +78,8 @@ model Turma {
   colaborador   Colaborador   @relation(fields: [colaboradorId], references: [id])
   colaboradorId String
   agendamentos  Agendamento[]
+
+  @@map("turma")
 }
 
 model Agendamento {
@@ -113,4 +92,18 @@ model Agendamento {
   clienteId String
   turma     Turma   @relation(fields: [turmaId], references: [id])
   turmaId   Int
+
+  @@map("agendamento")
+}
+
+model Info {
+  id        Int    @id @default(autoincrement())
+  nome      String
+  endereco  String
+  horarios  String
+  telefone  String
+  facebook  String
+  instagram String
+
+  @@map("info")
 }
