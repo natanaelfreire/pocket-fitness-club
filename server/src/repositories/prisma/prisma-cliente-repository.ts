@@ -1,4 +1,5 @@
 import { prisma } from "../../prisma";
+import { dateInISOString } from "../../utils/dateInISOString";
 import { ClienteDados, ClienteDadosCriacao, ClienteRepository, FiltrosListarClientes } from "../cliente-repository";
 
 export class PrismaClienteRepository implements ClienteRepository {
@@ -61,6 +62,7 @@ export class PrismaClienteRepository implements ClienteRepository {
         dataMensalidade: new Date(dataMensalidade),
         valorMensalidade,
         ativo,
+        dataCriacao: dateInISOString()
       },
     })
   }
@@ -129,7 +131,7 @@ export class PrismaClienteRepository implements ClienteRepository {
   async listar(filtros: FiltrosListarClientes) {    
     const clientesPrisma = await prisma.cliente.findMany({
       orderBy: {
-        nome: 'asc'
+        dataCriacao: 'desc'
       },
       where: {
         id: filtros.clienteId ? filtros.clienteId : undefined,
