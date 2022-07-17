@@ -9,6 +9,8 @@ import withReactContent from 'sweetalert2-react-content';
 import { Table } from "../../components/Table";
 import { Modal } from "../../components/Modal";
 import { Input } from "../../components/Form/Input";
+import { PhoneInput } from "../../components/Form/PhoneInput";
+import { CPFInput } from "../../components/Form/CPFInput";
 import {
   getProfessores,
   getProfessorById,
@@ -200,9 +202,9 @@ export function Professor() {
                 renderItem: (item) => {
                   return (
                     <div className="flex flex-col gap-1">
-                      <p>{item.nome}</p>
+                      <p>{item.nome.toUpperCase()}</p>
                       <span
-                        className="bg-gray-200 py-1 px-2 text-xs self-start text-black rounded-md"
+                        className="bg-gray-400 inline-block px-1 py-0.5 text-xs self-start text-white font-semibold rounded-sm whitespace-nowrap"
                       >
                         {formataCPF(item.cpf)}
                       </span>
@@ -223,9 +225,15 @@ export function Professor() {
                 }
               },
               {
-                head: 'Formação/Especialidade',
+                head: 'Formação',
                 renderItem: (item) => {
-                  return `${item.formacao} - ${item.especialidade}`;
+                  return item.formacao;
+                }
+              },
+              {
+                head: 'Especialidade',
+                renderItem: (item) => {
+                  return item.especialidade;
                 }
               },
               {
@@ -270,8 +278,7 @@ export function Professor() {
           value={inputNome}
         />
 
-        <Input
-          type="text"
+        <CPFInput
           label="CPF"
           setInput={setInputCPF}
           value={inputCPF}
@@ -284,8 +291,7 @@ export function Professor() {
           value={inputEndereco}
         />
 
-        <Input
-          type="text"
+        <PhoneInput
           label="Telefone"
           setInput={setInputTelefone}
           value={inputTelefone}
@@ -294,16 +300,16 @@ export function Professor() {
         <div className="lg:flex lg:gap-5">
           <Input
             type="text"
-            label="Especialidade"
-            setInput={setInputEspecialidade}
-            value={inputEspecialidade}
+            label="Formação"
+            setInput={setInputFormacao}
+            value={inputFormacao}
           />
 
           <Input
             type="text"
-            label="Formação"
-            setInput={setInputFormacao}
-            value={inputFormacao}
+            label="Especialidade"
+            setInput={setInputEspecialidade}
+            value={inputEspecialidade}
           />
         </div>
       </Modal>
