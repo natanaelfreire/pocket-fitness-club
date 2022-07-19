@@ -21,6 +21,8 @@ model Cliente {
 
   usuario      Usuario?
   agendamentos Agendamento[]
+  recebimentos Recebimento[]
+  fichasTreino FichaTreino[]
 
   @@map("cliente")
 }
@@ -36,8 +38,9 @@ model Colaborador {
   cargo         String
   dataCriacao   DateTime @default(now())
 
-  usuario Usuario?
-  turmas  Turma[]
+  usuario      Usuario?
+  turmas       Turma[]
+  fichasTreino FichaTreino[]
 
   @@map("colaborador")
 }
@@ -62,7 +65,8 @@ model Modalidade {
   descricao   String
   dataCriacao DateTime @default(now())
 
-  turmas Turma[]
+  turmas       Turma[]
+  fichasTreino FichaTreino[]
 
   @@map("modalidade")
 }
@@ -106,4 +110,80 @@ model Info {
   instagram String
 
   @@map("info")
+}
+
+model Recebimento {
+  id              Int      @id @default(autoincrement())
+  descricao       String
+  dataRecebimento DateTime
+  valor           Decimal
+  referencia      String
+  dataCadastro    DateTime @default(now())
+
+  cliente   Cliente? @relation(fields: [clienteId], references: [id])
+  clienteId String?
+
+  @@map("recebimento")
+}
+
+model Pagamento {
+  id            Int      @id @default(autoincrement())
+  descricao     String
+  dataPagamento DateTime
+  valor         Decimal
+  dataCadastro  DateTime @default(now())
+
+  @@map("pagamento")
+}
+
+model FichaTreino {
+  id           Int      @id @default(autoincrement())
+  descricao    String
+  dataCadastro DateTime @default(now())
+
+  divisoesTreino DivisaoTreino[]
+
+  colaborador   Colaborador @relation(fields: [colaboradorId], references: [id])
+  colaboradorId String
+  cliente       Cliente?    @relation(fields: [clienteId], references: [id])
+  clienteId     String
+  modalidade    Modalidade  @relation(fields: [modalidadeId], references: [id])
+  modalidadeId  Int
+
+  @@map("ficha_treino")
+}
+
+model DivisaoTreino {
+  id        Int    @id @default(autoincrement())
+  descricao String
+
+  exerciciosFichaTreino ExercicioFichaTreino[]
+
+  fichaTreino   FichaTreino @relation(fields: [fichaTreinoId], references: [id])
+  fichaTreinoId Int
+
+  @@map("divisao_treino")
+}
+
+model ExercicioFichaTreino {
+  id            Int     @id @default(autoincrement())
+  descricao     String
+  grupoMuscular String
+  peso          Decimal
+  repeticoes    Int
+  series        Int
+  observacao    String
+
+  divisaoTreino   DivisaoTreino @relation(fields: [divisaoTreinoId], references: [id])
+  divisaoTreinoId Int
+
+  @@map("exercicio_ficha_treino")
+}
+
+model AtividadesSistema {
+  id           Int      @id @default(autoincrement())
+  descricao    String
+  dataCadastro DateTime @default(now())
+
+  @@map("atividades_sistema")
 }

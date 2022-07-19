@@ -147,4 +147,37 @@ export class ModalidadeController {
         return res.status(400).send('unknown error');
     }
   }
+  
+  async modalidadesMaisPraticadas(req: Request, res: Response) {
+    try {
+      const agendamentos = await prisma.agendamento.findMany({
+        include: {
+          turma: {
+            include: {
+              modalidade: true
+            }
+          },
+        },
+      })
+
+      const modalidades = await prisma.modalidade.findMany();
+      const labels: string[] = [];
+      const series: number[] = [];
+
+      for (const modalidade of modalidades) {
+        const qtd = agendamentos.filter(item => item.turma.modalidadeId === modalidade.id).length;
+
+        labels.push(modalidade.descricao);
+        series.push(qtd);
+      }
+
+      return res.status(200).json({ series, labels });
+      
+    } catch (error: unknown) {
+      if (error instanceof Error)
+        return res.status(400).send(error.message);
+      else
+        return res.status(400).send('unknown error');
+    }
+  }
 }

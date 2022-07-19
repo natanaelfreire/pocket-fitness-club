@@ -153,4 +153,40 @@ export class AgendamentoController {
         return res.status(400).send('unknown error');
     }
   }
+
+  async agendamentosPorDia(req: Request, res: Response) {
+    try {
+      const dataInicio = new Date();
+      dataInicio.setMonth(dataInicio.getMonth() - 1);
+
+      const agendamentos = await prisma.agendamento.findMany({
+        include: {
+          turma: true,
+        },
+        where: {
+          dataAgendamento: {
+            gt: dataInicio
+          }
+        }
+      })
+
+      const qtdSegunda = agendamentos.filter(item => item.turma.horaInicio.getDay() === 1).length;
+      const qtdTerca = agendamentos.filter(item => item.turma.horaInicio.getDay() === 2).length;
+      const qtdQuarta = agendamentos.filter(item => item.turma.horaInicio.getDay() === 3).length;
+      const qtdQuinta = agendamentos.filter(item => item.turma.horaInicio.getDay() === 4).length;
+      const qtdSexta = agendamentos.filter(item => item.turma.horaInicio.getDay() === 5).length;
+      const qtdSabado = agendamentos.filter(item => item.turma.horaInicio.getDay() === 6).length;
+      const qtdDomingo = agendamentos.filter(item => item.turma.horaInicio.getDay() === 0).length;
+
+      const lista = [qtdSegunda, qtdTerca, qtdQuarta, qtdQuinta, qtdSexta, qtdSabado, qtdDomingo];
+      
+      return res.status(200).json(lista);
+      
+    } catch (error: unknown) {
+      if (error instanceof Error)
+        return res.status(400).send(error.message);
+      else
+        return res.status(400).send('unknown error');
+    }
+  }
 }
