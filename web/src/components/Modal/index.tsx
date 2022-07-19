@@ -46,7 +46,7 @@ export function Modal(props: ModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-xl bg-white p-6 text-left align-middle shadow-xl transition-all relative">
+              <Dialog.Panel className="w-full max-w-lg transform rounded-xl bg-white p-6 text-left align-middle shadow-xl transition-all relative">
                 <Dialog.Title
                   as="h3"
                   className="text-xl font-medium leading-6 text-gray-900"
@@ -78,10 +78,10 @@ export function Modal(props: ModalProps) {
                   >
                     Cancelar
                   </button>
-
+                  
                   <button
                     type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    className="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium bg-emerald-500 hover:bg-emerald-600 focus:bg-emerald-700 transition-colors text-white shadow-sm outline-none focus:ring-4 focus:ring-emerald-300 focus:ring-offset-1 ring-offset-white"
                     onClick={props.onConfirm}
                   >
                     Salvar

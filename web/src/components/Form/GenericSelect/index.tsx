@@ -41,7 +41,7 @@ export function GenericSelect<TOption,>(props: SelectProps<TOption>) {
   }, [])
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col mb-3'>
       <label 
         htmlFor={id}
         className="mb-1 text-slate-900"

@@ -28,7 +28,7 @@ type Cliente = {
   ativo: boolean;
 }
 
-export function getClientes(clienteId: string, cpf: string, status: string) {
+export function getClientes(clienteId?: string, cpf?: string, status?: string) {
   const { data, isFetching, error, refetch } = useQuery<Cliente[], Error>('clientes', async () => {
     const response = await api.post('cliente/listagem', {
       clienteId,
