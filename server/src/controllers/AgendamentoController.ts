@@ -189,4 +189,41 @@ export class AgendamentoController {
         return res.status(400).send('unknown error');
     }
   }
+
+  async agendamentoPorCliente(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+
+      const agendamentosDb = await prisma.agendamento.findMany({
+        include: {
+          turma: {
+            include: {
+              colaborador: true,
+              modalidade: true,
+            }
+          }
+        },
+        where: {
+          clienteId: id
+        },
+      })
+
+      const agendamentos = agendamentosDb.map(item => {
+        return {
+          id: item.id,
+          dataHora: item.turma.horaInicio,
+          professor: item.turma.colaborador.nome,
+          modalidade: item.turma.modalidade.descricao
+        }
+      })
+
+      return res.status(200).json(agendamentos);
+      
+    } catch (error: unknown) {
+      if (error instanceof Error)
+        return res.status(400).send(error.message);
+      else
+        return res.status(400).send('unknown error');
+    }
+  }
 }

@@ -233,4 +233,33 @@ export class RecebimentoController {
         return res.status(400).send('unknown error');
     }
   }
+
+  async recebsPorCliente(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+
+      const recebimentosDb = await prisma.recebimento.findMany({
+        where: {
+          clienteId: id
+        }
+      })
+
+      const recebimentos = recebimentosDb.map(item => {
+        return {
+          id: item.id,
+          dataRecebimento: item.dataRecebimento,
+          valor: item.valor.toNumber(),
+          referencia: item.referencia
+        }
+      })
+
+      return res.status(200).json(recebimentos);
+      
+    } catch (error: unknown) {
+      if (error instanceof Error)
+        return res.status(400).send(error.message);
+      else
+        return res.status(400).send('unknown error');
+    }
+  }
 }
