@@ -12,6 +12,7 @@ import { Recebimento } from '../pages/Recebimento';
 import { Pagamento } from '../pages/Pagamento';
 import { Dashboard } from '../pages/Dashboard';
 import { Financeiro } from '../pages/Financeiro';
+import { ClienteDetalhes } from '../pages/ClienteDetalhes';
 
 export default function OtherRoutes() {
   return (
@@ -24,6 +25,7 @@ export default function OtherRoutes() {
             <Route path="/professor" element={<Professor />} />
             <Route path="/modalidade" element={<Modalidade />} />            
             <Route path="/cliente" element={<Cliente />} />
+            <Route path="/cliente/detalhes/:id"  element={<ClienteDetalhes />} />
             <Route path="/calendario-turma" element={<CalendarioTurma />} />
             <Route path="/recebimento" element={<Recebimento />} />
             <Route path="/financeiro" element={<Financeiro />} />

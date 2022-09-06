@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu as Dropdown, Transition } from '@headlessui/react'
 import { DotsVerticalRounded } from '@styled-icons/boxicons-regular/DotsVerticalRounded';
 import { useQueryClient } from 'react-query';
@@ -38,6 +38,7 @@ export function Cliente() {
 
   const queryClient = useQueryClient();
   const MySwal = withReactContent(Swal);
+  const navigate = useNavigate();
 
   const [inputNome, setInputNome] = useState('');
   const [inputCPF, setInputCPF] = useState('');
@@ -365,13 +366,12 @@ export function Cliente() {
                               </a>
                             </Dropdown.Item>
                             <Dropdown.Item>
-                              <a
+                              <Link
                                 className='text-black whitespace-nowrap dark:text-zinc-300 text-xs flex items-center gap-2 hover:bg-blue-500 dark:hover:bg-zinc-900 hover:text-white p-2 m-1 rounded-md'
-                                href="#"
-                                onClick={() => {}}
+                                to={`detalhes/${item.id}`}
                               >
                                 Ver Detalhes
-                              </a>
+                              </Link>
                             </Dropdown.Item>
                             <Dropdown.Item>
                               <a

@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useContext, useState } from 'react';
 import { Menu as Dropdown, Transition } from '@headlessui/react'
 import { useWindowDimensions } from '../../hooks/useWindowDimensions';
 import { DarkModeToggle } from '../Toggle';
@@ -24,6 +24,7 @@ import logoSmall from '../../assets/images/logo-small.png';
 import { Logout } from '../../services/AuthorizationService';
 import { MenuItem } from '../../components/MenuItem';
 import { Link } from 'react-router-dom';
+import AuthContext from '../../contexts/auth';
 
 type MenuProps = {
   children: ReactNode;
@@ -32,6 +33,7 @@ type MenuProps = {
 export function Menu({ children } : MenuProps) {
   const [toggleSidebar, setToggleSidebar] = useState(false);
   const { width } = useWindowDimensions();
+  const { user } = useContext(AuthContext);  
 
   const handleMenuItemClick = () => {
     if (width < 1000)
@@ -88,8 +90,8 @@ export function Menu({ children } : MenuProps) {
                     <a
                       className='text-black dark:text-white text-lg px-2 py-1'
                     >
-                      <div>Antonio da Silva</div>
-                      <small className="text-zinc-600">admin</small>
+                      <div>{user?.nome}</div>
+                      <small className="text-zinc-600">{user?.perfilAcesso}</small>
                     </a>
                   </Dropdown.Item>
                   <hr className='bg-zinc-300 dark:bg-zinc-700 h-[1px] border-none' />
