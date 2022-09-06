@@ -60,6 +60,7 @@ routes.patch('/agendamento/cancelar/:id', agendamentoController.cancelar);
 routes.get('/agendamento/:id', agendamentoController.mostrar);
 // routes.delete('/agendamento/:id', turmaController.deletar);
 routes.get('/agendamentospordia', agendamentoController.agendamentosPorDia);
+routes.get('/agendamentosporcliente/:id', agendamentoController.agendamentoPorCliente);
 
 routes.post('/recebimento', recebimentoController.criar);
 routes.get('/recebimento', recebimentoController.listar);
@@ -67,6 +68,7 @@ routes.put('/recebimento', recebimentoController.atualizar);
 routes.get('/recebimento/:id', recebimentoController.mostrar);
 routes.delete('/recebimento/:id', recebimentoController.deletar);
 routes.get('/totalmes', recebimentoController.totalMes);
+routes.get('/recebimentosporcliente/:id', recebimentoController.recebsPorCliente);
 
 routes.post('/pagamento', pagamentoController.criar);
 routes.get('/pagamento', pagamentoController.listar);
